@@ -6,6 +6,8 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
 #include <QImage>
+#include <qopenglvertexarrayobject.h>
+#include <qopenglbuffer.h>
 
 
 class GLWidget : public QOpenGLWidget , protected QOpenGLExtraFunctions
@@ -26,5 +28,7 @@ private:
 	QOpenGLShaderProgram _shader_program;	//着色器
 	QOpenGLTexture *_texture;				//纹理
 	QImage _img;
+	QOpenGLVertexArrayObject VAO;
+	QOpenGLBuffer VBO;
 };
 
