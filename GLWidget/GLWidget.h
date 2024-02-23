@@ -24,11 +24,14 @@ public:
 	void initTextures();
 	void initShaders();
 
+	void textureBindImage(QOpenGLTexture& texture, QImage& img);
+
 private:
 	QOpenGLShaderProgram _shader_program;	//着色器
 	QOpenGLTexture *_texture;				//纹理
 	QImage _img;
 	QOpenGLVertexArrayObject VAO;
 	QOpenGLBuffer VBO;
+	QOpenGLBuffer EBO;
 };
 
