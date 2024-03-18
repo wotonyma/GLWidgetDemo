@@ -12,7 +12,7 @@ GLWidget::GLWidget(QWidget *parent)
 	this->setFormat(format);*/
 
 	_img = QImage("C:/zen/GL_Test/img1.png");
-	//auto img = QImage("D:/test/img2.jpg");
+	auto img = QImage("D:/test/img2.jpg");
 	//_img = img.scaled(img.width() / 4, img.height() / 4);
 	//_img = img;
 }
