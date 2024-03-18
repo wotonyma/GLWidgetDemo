@@ -110,6 +110,8 @@ ToolBox::ToolBox(QWidget* parent)
     _scroll_area = new QScrollArea(this);
     _scroll_area->setWidgetResizable(true); //不加这个widget不会被ScroolArea拉伸 而是原有大小
     _scroll_area->setWidget(widget);
+	//QScrollArea 无法通过样式改变背景色，无法去除边框
+	scrollArea->setBackgroundRole(QPalette::Dark);  // 背景色
 
     auto layout = new QVBoxLayout(this);    //box布局
     layout->setContentsMargins(0, 0, 0, 0);

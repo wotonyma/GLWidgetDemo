@@ -1,37 +1,44 @@
 #pragma once
 
-#include <QWidget>
 #include <QOpenGLWidget>
 #include <QOpenGLExtraFunctions>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
+#include <QOpenGLVertexArrayObject>
+#include <QOpenGLBuffer>
 #include <QImage>
-#include <qopenglvertexarrayobject.h>
-#include <qopenglbuffer.h>
 
-
-class GLWidget : public QOpenGLWidget , protected QOpenGLExtraFunctions
+class GLWidget : public QOpenGLWidget, protected QOpenGLExtraFunctions
 {
 	Q_OBJECT
 
+	struct Vertex 
+	{
+		QVector3D pos;
+		QVector4D color;
+		QVector2D texture;
+	};
+
 public:
-	GLWidget(QWidget *parent = nullptr);
+	GLWidget(QWidget* parent = nullptr);
 	~GLWidget();
+	//用于等比例显示纹理图片
+	void updateVertexData(float w, float h);
+
+public slots:
+	void updateImage(const QImage& img);
+
+protected:
 	void initializeGL() override;
 	void resizeGL(int w, int h) override;
 	void paintGL() override;
 
-	void initTextures();
-	void initShaders();
-
-	void textureBindImage(QOpenGLTexture& texture, QImage& img);
-
 private:
-	QOpenGLShaderProgram _shader_program;	//着色器
-	QOpenGLTexture *_texture;				//纹理
-	QImage _img;
-	QOpenGLVertexArrayObject VAO;
-	QOpenGLBuffer VBO;
-	QOpenGLBuffer EBO;
-};
+	QOpenGLShaderProgram _shader_program;
+	QOpenGLTexture _texture;
+	QOpenGLVertexArrayObject _vao;
+	QOpenGLBuffer _vbo;
+	QOpenGLBuffer _ebo;
 
+	QVector<Vertex> _vertices;
+};
