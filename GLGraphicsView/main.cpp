@@ -11,6 +11,8 @@
 #include "GLWidget.h"
 #include <QDebug>
 #include "OpenGLPixmapItem.h"
+#include "OpenGLWidgetItem.h"
+#include <QGraphicsWidget>
 
 int main(int argc, char* argv[])
 {
@@ -23,19 +25,27 @@ int main(int argc, char* argv[])
 
     auto scene = new QGraphicsScene();
     //auto imgItem = new QGraphicsPixmapItem(QPixmap("C:/zen/GL_Test/img1.png"));
-    auto imgItem = new OpenGLPixmapItem(QPixmap("C:/zen/GL_Test/img1.png"));
-    scene->addItem(imgItem);
-    qDebug() << imgItem->boundingRect();
+    //auto imgItem = new OpenGLPixmapItem(QPixmap("C:/zen/GL_Test/img1.png"));
+    //auto imgItem = new QGraphicsPixmapItem(QPixmap("d:/test/copy/mark_inv.jpg"));
+    //auto imgItem = new OpenGLPixmapItem(QPixmap("d:/test/copy/mark_inv.jpg"));
+    //scene->addItem(imgItem);
+
+    auto imgwnd = new OpenGLWidgetItem();
+    imgwnd->setGeometry(0, 0, 1000, 1000);
+    scene->addItem(imgwnd);
 
     QGraphicsView* view = new QGraphicsView(wnd);
-    view->setViewport(new QOpenGLWidget);
+    view->setViewport(new QOpenGLWidget());
     vlayout->addWidget(view);
     view->setScene(scene);
+    
+    qDebug() << "scene:" << scene;
+    qDebug() << "view:" << view;
 
 
-    auto gl = new QOpenGLWidget(view);
-    gl->setPalette((QPalette::Foreground, Qt::blue));
-    view->setViewport(gl);
+    //auto gl = new QOpenGLWidget(view);
+    //gl->setPalette((QPalette::Foreground, Qt::blue));
+    //view->setViewport(gl);
 
 
     wnd->show();

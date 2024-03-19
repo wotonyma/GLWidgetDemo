@@ -26,5 +26,5 @@ target_sources(${PROJECT_NAME} PRIVATE res.qrc)
 
 #glwidget
 #target_sources(${PROJECT_NAME} PRIVATE GLWidget.cpp GLGraphicsView.cpp ImageGraphicsItem.cpp)
-target_sources(${PROJECT_NAME} PRIVATE GLWidget.cpp GLGraphicsView.cpp OpenGLPixmapItem.cpp)
+target_sources(${PROJECT_NAME} PRIVATE GLWidget.cpp GLGraphicsView.cpp OpenGLPixmapItem.cpp OpenGlWidgetItem.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE opengl32)

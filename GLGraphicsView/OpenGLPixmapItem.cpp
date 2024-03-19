@@ -14,6 +14,8 @@ OpenGLPixmapItem::~OpenGLPixmapItem()
 
 void OpenGLPixmapItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
+    /*subclass of QGraphicsPixmapItem can't work well*/
+
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
@@ -26,25 +28,26 @@ void OpenGLPixmapItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
         m_texture->setMagnificationFilter(QOpenGLTexture::Linear);
     }
 
-    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    //glClearColor(0.0f, 0.5f, 0.7f, 1.0f);
-    glColor3f(0.0f, 0.5f, 0.7f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //glColor3f(0.0f, 0.5f, 0.7f);
     
 
     // Bind texture and render with OpenGL
     if (!m_texture->isStorageAllocated())
         qDebug() << "not alloccte";
 
+    //painter->beginNativePainting();
+    glEnable(GL_TEXTURE_2D);	//允许使用纹理
+    m_texture->bind();//绑定纹理
     glBegin(GL_QUADS);
-    m_texture->bind(0);//绑定纹理
-    glTexCoord2f(0, 0);//坐标1
-    glVertex2d(-1.0, 1.0f);
-    glTexCoord2f(1, 0);//坐标2
-    glVertex2d(1.0f, 1.0f);
-    glTexCoord2f(1, 1);//坐标3
+    glTexCoord2f(0, 0);//左下坐标1
+    glVertex2d(-1.0, -1.0f);
+    glTexCoord2f(1, 0);//右下坐标2
     glVertex2d(1.0f, -1.0f);
-    glTexCoord2f(0, 1);//坐标4
-    glVertex2d(-1.0f, -1.0f);
+    glTexCoord2f(1, 1);//右上坐标3
+    glVertex2d(1.0f, 1.0f);
+    glTexCoord2f(0, 1);//左上坐标4
+    glVertex2d(-1.0f, 1.0f);
     glEnd();
 
     //painter->endNativePainting();
