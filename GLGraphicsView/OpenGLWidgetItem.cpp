@@ -25,6 +25,8 @@ void OpenGLWidgetItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
     qDebug() << size();
     qDebug() << "paint device" << widget;
 
+    
+
     if (!m_init)
     {
         m_init = true;
@@ -39,8 +41,10 @@ void OpenGLWidgetItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
 
     //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glColor3f(0.0f, 0.5f, 0.7f);
+    glViewport(100, 100, 1000, 1000);
+    
 
-    //painter->beginNativePainting();
+    painter->beginNativePainting();
     glEnable(GL_TEXTURE_2D);	//允许使用纹理
     m_texture->bind();//绑定纹理
     glBegin(GL_QUADS);
@@ -53,7 +57,13 @@ void OpenGLWidgetItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
     glTexCoord2f(0, 1);//左上坐标4
     glVertex2d(-1.0f, 1.0f);
     glEnd();
-    //painter->endNativePainting();
+    painter->endNativePainting();
     qDebug() << size();
+
+    QPen pen;
+    pen.setWidth(5);
+    pen.setColor(QColor(255, 0, 0));
+    painter->setPen(pen);
+    painter->drawRect(boundingRect());
 }
 
