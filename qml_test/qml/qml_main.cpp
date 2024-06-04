@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:/main_ui.qml"))); 
+    engine.load(QUrl(QStringLiteral("qrc:/main_ui.qml")));
     //engine.load(":/main_ui.qml"); //ok ,上面那种写法必须要有前缀qrc
     if (engine.rootObjects().isEmpty())
         return -1;
