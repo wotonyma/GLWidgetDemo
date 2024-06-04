@@ -15,24 +15,16 @@ ApplicationWindow{
         Flickable{
              id:flickView;
              anchors.fill: parent
-             contentWidth: parent.width
-             contentHeight: parent.height
-             //contentWidth: 8192
-             //contentHeight: 10000
+             contentWidth: 600
+             contentHeight: 600
 
              Image{
                  id:img;
-                 //width:parent.width;
-                 //height:parent.height;
-                 width:8192
-                 height:10000
+                 width:parent.width;
+                 height:parent.height;
                  anchors.centerIn: parent;
                  fillMode: Image.PreserveAspectFit;
-                 scale:0.1
-                 //fillMode: Image.PreserveAspectCrop;
-                 //fillMode: Image.Pad
-
-                 source:"file:./ori_mark.jpg";
+                 source:"file:///d:/test/copy/ori_mark.jpg";
              }
              MouseArea{
                 anchors.fill: parent
@@ -62,14 +54,7 @@ ApplicationWindow{
                             }
                         }
                     }
-                    
                 }
-
-                onClicked:{
-                    console.log("flickable size:(" + flickView.contentX + "," + flickView.contentX + ")")
-                    var pos = mapToItem(img, mouseX, mouseY)
-                    console.log("img pos:(" + pos.x + "," + pos.y + ")")
-                    }
              }
         }
 }

@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/gl">
+    <qresource prefix="/opengl">
         <file>gl.frag</file>
         <file>gl.vert</file>
     </qresource>
