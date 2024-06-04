@@ -5,7 +5,8 @@ import QtQuick.Layouts 1.0
 
 Window {
     id: window
-    visible: true //表示部件可见
+    visible: true
+    //表示部件可见
     width: 640
     height: 480
     property alias button_0X: button_0.x
@@ -43,11 +44,11 @@ Window {
 
         Button {
             id: button_0
+            x: 218
+            y: 162
             width: 75
             height: 26
             text: qsTr("qt btn")
-            anchors.verticalCenterOffset: 0
-            anchors.verticalCenter: parent.verticalCenter
             transformOrigin: Item.Center
         }
     }
@@ -55,8 +56,4 @@ Window {
 }
 
 
-/*##^##
-Designer {
-    D{i:6;anchors_height:26;anchors_width:75;anchors_x:218;anchors_y:162}
-}
-##^##*/
+

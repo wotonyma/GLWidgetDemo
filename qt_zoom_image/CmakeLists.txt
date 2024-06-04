@@ -1,0 +1,37 @@
+cmake_minimum_required(VERSION 3.1.13)
+
+project(test VERSION 0.1 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+
+set(CMAKE_PREFIX_PATH E:/Qt/5.15.2/msvc2019_64)
+set(QT_DIR E:/Qt/5.15.2/msvc2019_64/lib/cmake/Qt5)
+find_package(Qt5Core)
+find_package(Qt5Widgets)
+
+add_executable(${PROJECT_NAME} main.cpp)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Widgets)
+
+#ui
+include_directories(${PROJECT_SOURCE_DIR}/ui)
+Set(UI_SOURCE ui/mywnd.cpp  ui/mywnd.ui)
+target_sources(${PROJECT_NAME} PUBLIC ${UI_SOURCE})
+
+#fmt
+set(fmt_DIR E:/3rd/spdlog_x64-dynamic/share/fmt)
+find_package(fmt REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt-header-only)
+
+#spdlog
+set(spdlog_DIR E:/3rd/spdlog_x64-dynamic/share/spdlog)
+find_package(spdlog REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE spdlog::spdlog_header_only)
+
