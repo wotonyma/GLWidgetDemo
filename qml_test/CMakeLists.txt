@@ -26,5 +26,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core
 												Qt${QT_VERSION_MAJOR}::Quick
 )
 
+find_package(Boost REQUIRED COMPONENTS pfr)
+target_link_libraries(${PROJECT_NAME} PRIVATE Boost::pfr)
 #包含子项目
 add_subdirectory("qml")

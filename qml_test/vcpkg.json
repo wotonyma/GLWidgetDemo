@@ -2,8 +2,9 @@
   "name": "tool-page",
   "version": "1.0.0",
   "dependencies": [
-    "fmt",
     "eigen3",
-    "spdlog"
+    "fmt",
+    "spdlog",
+    "boost-pfr"
   ]
 }
