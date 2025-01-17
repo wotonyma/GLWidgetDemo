@@ -1,0 +1,13 @@
+class YmcService
+{
+	SLOT(bool AxesEnable(bool st))	//全体轴使能设置
+	SLOT(double AxisPosition(int axis)) //轴位置
+	SLOT(double AxisVelocity(int axis)) //轴速度
+	SLOT(bool AxisAbsoluteMotion(int axis, double pos, double velo))
+	SLOT(bool AxisRelativeMotion(int axis, double pos, double velo))
+	SLOT(bool AxisJogPositive(int axis, double velo))
+	SLOT(bool AxisJogNegative(int axis, double velo))
+	SLOT(bool AxisStopMotion(int axis))
+	SLOT(bool AxisStopJog(int axis))
+	SLOT(bool HomePosition())
+}

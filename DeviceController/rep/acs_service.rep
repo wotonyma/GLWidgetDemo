@@ -1,0 +1,21 @@
+class AcsService
+{
+	SLOT(bool AxisEnable(int axis, bool st)) //控制轴使能
+	SLOT(QPointF AxisXYPosition())			//XY轴位置
+	SLOT(double AxisPosition(int axis))		//某个轴位置
+	SLOT(double AxisVelocity(int axis))		//某个轴速度
+
+	SLOT(bool SetAxisVelocity(int axis, double velo))	//设置速度
+	SLOT(bool AxisAbsoluteMotion(int axis, double pos)) //绝对运动
+	SLOT(bool AxisRelativeMotion(int axis, double dist)) //相对运动
+	SLOT(bool AxisXYAbsoluteMotion(double x, double y)) //xy轴绝对运动
+
+	SLOT(bool AxisJogPositive(int axis, double velo)) //jog正运动
+	SLOT(bool AxisJogNegative(int axis, double velo)) //jog负运动
+	SLOT(bool AxisStopMotion(int axis))			//轴停止运动
+	SLOT(bool AxisStopMotionAll())				//全部停止
+
+	SLOT(bool HomePosition())					//回零
+	SLOT(bool StartPEG(int axis, double width, double sp, double interval, double ep, int tb_num, double tb_period))
+	SLOT(bool StopPEG(int axis))
+}

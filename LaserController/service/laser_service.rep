@@ -1,0 +1,27 @@
+#include "bmp_ent.h"
+
+class LaserService
+{
+	SLOT(int laser_Open())
+	SLOT(int laser_Close())
+	SLOT(int laser_MarkPoint(QPointF point, double delay, int pen))
+	SLOT(int laser_MarkLine(QPointF point1, QPointF point2, int pen))
+	//振镜控制
+	SLOT(int laser_GotoPos(QPointF pos))
+	SLOT(QPointF laser_GetCurPos())
+	//对象控制
+	SLOT(int laser_LoadMarkFile(QString file))
+	SLOT(int laser_MarkFile())
+	SLOT(int laser_MarkEntity(QString ent))
+
+	SLOT(int laser_MirrorEnt(QString ent, QPointF center, bool bx, bool by))
+	SLOT(int laser_MoveEnt(QString ent, QPointF offset))
+	SLOT(int laser_RotateEnt(QString ent, QPointF center, double angle))
+	SLOT(int laser_ScaleEnt(QString ent, QPoint center, double scaleX, double scaleY))
+	SLOT(QRectF laser_GetEntSize(QString ent));
+
+	SLOT(BmpEntInfo laser_GetBitmapEnt(QString ent))
+	SLOT(int laser_SetBitmapEnt(QString ent, const BmpEntInfo& bmpInfo))
+
+	SLOT(int laser_ChangeEntText(QString ent, QString text))
+}

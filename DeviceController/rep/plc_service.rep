@@ -1,0 +1,12 @@
+class PlcService
+{
+	SLOT(QVector<double> AxesPosition(QVector<int> axes))
+	SLOT(bool AxesAbsoluteMotion(QVector<int> axes, QVector<double> pos, QVector<double> velo)) //多轴绝对运动(用于加紧或松开)
+	SLOT(bool AxisAbsoluteMotion(int axis, double pos, double velo))
+	SLOT(bool AxisRelativeMotion(int axis, double pos, double velo))
+	SLOT(bool AxisStopMotion(int axis))
+	SLOT(bool AxisJogPositive(int axis, double velo))
+	SLOT(bool AxisJogNegative(int axis, double velo))
+	SLOT(bool AxisJogStop(int axis))
+	SLOT(bool HomePosition())
+}
