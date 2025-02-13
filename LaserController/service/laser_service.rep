@@ -13,12 +13,16 @@ class LaserService
 	SLOT(int laser_LoadMarkFile(QString file))
 	SLOT(int laser_MarkFile())
 	SLOT(int laser_MarkEntity(QString ent))
+	SLOT(int laser_MarkEntity(QString ent, int pen))
 
 	SLOT(int laser_MirrorEnt(QString ent, QPointF center, bool bx, bool by))
 	SLOT(int laser_MoveEnt(QString ent, QPointF offset))
 	SLOT(int laser_RotateEnt(QString ent, QPointF center, double angle))
 	SLOT(int laser_ScaleEnt(QString ent, QPoint center, double scaleX, double scaleY))
 	SLOT(QRectF laser_GetEntSize(QString ent));
+
+	SLOT(int laser_AddPolygon(QString ent, QVector<QPointF> poly, bool close))
+	SLOT(int laser_EnableHatchEnt(QString ent, bool enableHatch, double hatchLineDist, int penNo))
 
 	SLOT(BmpEntInfo laser_GetBitmapEnt(QString ent))
 	SLOT(int laser_SetBitmapEnt(QString ent, const BmpEntInfo& bmpInfo))

@@ -52,6 +52,11 @@ int LaserService::laser_MarkEntity(QString ent)
 	return LASER.laser_MarkEntity(ent);
 }
 
+int LaserService::laser_MarkEntity(QString ent, int pen)
+{
+	return LASER.laser_MarkEntity(ent, pen);
+}
+
 int LaserService::laser_MirrorEnt(QString ent, QPointF center, bool bx, bool by)
 {
 	return LASER.laser_MirrorEnt(ent, center, bx, by);
@@ -77,6 +82,16 @@ QRectF LaserService::laser_GetEntSize(QString ent)
 	QRectF rect;
 	auto err = LASER.laser_GetEntSize(ent, rect);
 	return rect;
+}
+
+int LaserService::laser_AddPolygon(QString ent, QVector<QPointF> poly, bool close)
+{
+	return LASER.laser_AddPolygon(ent, poly, close);
+}
+
+int LaserService::laser_EnableHatchEnt(QString ent, bool enableHatch, double hatchLineDist, int penNo)
+{
+	return LASER.laser_EnableHatchEnt(ent, enableHatch, hatchLineDist, penNo);
 }
 
 BmpEntInfo LaserService::laser_GetBitmapEnt(QString ent)

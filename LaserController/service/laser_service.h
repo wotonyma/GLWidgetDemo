@@ -23,11 +23,14 @@ public:
     int laser_LoadMarkFile(QString file) override;
     int laser_MarkFile() override;
     int laser_MarkEntity(QString ent) override;
+    int laser_MarkEntity(QString ent, int pen) override;
     int laser_MirrorEnt(QString ent, QPointF center, bool bx, bool by) override;
     int laser_MoveEnt(QString ent, QPointF offset) override;
     int laser_RotateEnt(QString ent, QPointF center, double angle) override;
     int laser_ScaleEnt(QString ent, QPoint center, double scaleX, double scaleY) override;
     QRectF laser_GetEntSize(QString ent) override;
+    int laser_AddPolygon(QString ent, QVector<QPointF> poly, bool close) override;
+    int laser_EnableHatchEnt(QString ent, bool enableHatch, double hatchLineDist, int penNo) override;
     BmpEntInfo laser_GetBitmapEnt(QString ent) override;
     int laser_SetBitmapEnt(QString ent, const BmpEntInfo& bmpInfo) override;
     int laser_ChangeEntText(QString ent, QString text) override;

@@ -5,6 +5,8 @@
 #include "laser_ctrl.h"
 #include "service_ctrl.h"
 
+#include "laser.h"
+
 #include "Windows.h"
 #define WM_USER_SUB_EXIT (WM_USER + 1024)
 
@@ -45,6 +47,19 @@ int main(int argc, char** argv)
 
 	//启动LaserService服务
 	ServiceControl::instance().start();
+
+	LaserControl::instance().laser().laser_Open();
+	LaserControl::instance().laser().laser_LoadMarkFile("D:\\TestFile\\test.ezd");
+
+	QVector<QPointF> pts;
+	pts << QPointF(0, 0) << QPointF(0, 1) << QPointF(1, 1) << QPointF(1, 0);
+	//LaserControl::instance().laser().laser_AddPolygon("poly3", pts, false);
+	//LaserControl::instance().laser().laser_AddPolygon("poly3", pts, true);
+	//LaserControl::instance().laser().laser_EnableHatchEnt("rect", true, 0.03, 1);
+	LaserControl::instance().laser().laser_EnableHatchEnt("rect", false, 0.03, 1);
+	LaserControl::instance().laser().laser_SaveToFile("D:\\TestFile\\test3.ezd");
+ 
+	LaserControl::instance().laser().laser_Close();
 
 	return app.exec();
 }

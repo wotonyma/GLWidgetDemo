@@ -931,6 +931,10 @@ typedef int(*LMC1_SETPENPARAM4)(int       nPenNo,//要设置的笔号(0-255)
 								double     bWobbleDiameter,//抖动直径
 								double     bWobbleDist);//抖动间距
 
+//对象名称
+//要设置的笔号(0-255) 
+typedef int (*LMC1_SETENTALLCHILDPEN)(TCHAR* sEntName, int nPenNo);
+
 #pragma endregion
 
 #pragma region Axis

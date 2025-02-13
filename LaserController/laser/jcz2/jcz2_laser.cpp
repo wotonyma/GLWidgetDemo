@@ -28,7 +28,6 @@ void JCZ2Laser::HandleReset()
 	lmc1_Mark = nullptr;
 	lmc1_MarkEntity = nullptr;
 
-
 	lmc1_GotoPos = nullptr;
 	lmc1_GetCurCoor = nullptr;
 
@@ -40,10 +39,15 @@ void JCZ2Laser::HandleReset()
 	lmc1_MirrorEnt = nullptr;
 	lmc1_ScaleEnt = nullptr;
 	lmc1_RotateEnt = nullptr;
+	lmc1_DeleteEnt = nullptr;
+
+	lmc1_HatchEnt = nullptr;
+	lmc1_UnHatchEnt = nullptr;
 
 	lmc1_GetPenParam = nullptr;
 	lmc1_SetPenParam = nullptr;
 	lmc1_ClearEntLib = nullptr;
+	lmc1_SetEntAllChildPen = nullptr;
 
 	lmc1_AddCurveToLib = nullptr;
 	lmc1_AddCircleToLib = nullptr;
@@ -56,10 +60,16 @@ void JCZ2Laser::HandleReset()
 
 	lmc1_GetBitmapEntParam = nullptr;
 	lmc1_SetBitmapEntParam2 = nullptr;
+	lmc1_SetHatchEntParam2 = nullptr;
 }
 
 int JCZ2Laser::laser_Open()
 {
+	if (lmc1_Initial != NULL)
+	{
+		return 0;	//已经打开
+	}
+
 	SetDllDirectory(ToWStr(m_ezdPath));
 	m_hEzdDLL = LoadLibrary(_T("MarkEzd.dll"));//加载动态连接库	
 	if (m_hEzdDLL == NULL)
@@ -91,9 +101,13 @@ int JCZ2Laser::laser_Open()
 	GetDllAddress(lmc1_MirrorEnt, "lmc1_MirrorEnt");
 	GetDllAddress(lmc1_ScaleEnt, "lmc1_ScaleEnt");
 	GetDllAddress(lmc1_RotateEnt, "lmc1_RotateEnt");
+	GetDllAddress(lmc1_HatchEnt, "lmc1_HatchEnt");
+	GetDllAddress(lmc1_UnHatchEnt, "lmc1_UnHatchEnt");
 	GetDllAddress(lmc1_GetPenParam, "lmc1_GetPenParam");
 	GetDllAddress(lmc1_SetPenParam, "lmc1_SetPenParam");
 	GetDllAddress(lmc1_ClearEntLib, "lmc1_ClearEntLib");
+	GetDllAddress(lmc1_DeleteEnt, "lmc1_DeleteEnt");
+	GetDllAddress(lmc1_SetEntAllChildPen, "lmc1_SetEntAllChildPen");
 	GetDllAddress(lmc1_AddCurveToLib, "lmc1_AddCurveToLib");
 	GetDllAddress(lmc1_AddCircleToLib, "lmc1_AddCircleToLib");
 	GetDllAddress(lmc1_AddBarCodeToLib, "lmc1_AddBarCodeToLib");
@@ -103,6 +117,7 @@ int JCZ2Laser::laser_Open()
 	GetDllAddress(lmc1_SaveEntLibToFile, "lmc1_SaveEntLibToFile");
 	GetDllAddress(lmc1_GetBitmapEntParam, "lmc1_GetBitmapEntParam");
 	GetDllAddress(lmc1_SetBitmapEntParam2, "lmc1_SetBitmapEntParam2");
+	GetDllAddress(lmc1_SetHatchEntParam2, "lmc1_SetHatchEntParam2");
 	
 	if (lmc1_Initial != NULL)
 	{
@@ -167,6 +182,12 @@ int JCZ2Laser::laser_MarkEntity(String ent)
 	return lmc1_MarkEntity(ToWStr(ent));
 }
 
+int JCZ2Laser::laser_MarkEntity(String ent, int pen)
+{
+	lmc1_SetEntAllChildPen(ToWStr(ent), pen);
+	return lmc1_MarkEntity(ToWStr(ent));
+}
+
 int JCZ2Laser::laser_MirrorEnt(String ent, Point center, bool bx, bool by)
 {
 	return lmc1_MirrorEnt(ToWStr(ent), center.x(), center.y(), bx, by);
@@ -194,6 +215,25 @@ int JCZ2Laser::laser_GetEntSize(String ent, Rect& rect)
 	rect.setTopLeft({ tl_x, tl_y });
 	rect.setBottomRight({ br_x, br_y });
 	return err;
+}
+
+int JCZ2Laser::laser_AddPolygon(String ent, PointVec poly, bool close)
+{
+	if (ent.isEmpty() || poly.size() < 2)
+	{
+		return LMC1_ERR_PARAM;
+	}
+	if (close && poly.size() > 2) //首尾相连
+	{
+		poly.push_back(poly.front());
+	}
+	lmc1_DeleteEnt(ToWStr(ent));
+	return lmc1_AddCurveToLib((double(*)[2])poly.data(), poly.size(), ToWStr(ent), 0, false);
+}
+
+int JCZ2Laser::laser_EnableHatchEnt(String ent, bool enableHatch, double hatchLineDist, int penNo)
+{
+	return SetHatchBindParam(ent, enableHatch, hatchLineDist, penNo);
 }
 
 int JCZ2Laser::laser_GetBitmapEnt(String ent, BitmapInfo& bmpInfo)
@@ -228,4 +268,38 @@ int JCZ2Laser::laser_SetBitmapEnt(String ent, const BitmapInfo& bmpInfo)
 int JCZ2Laser::laser_ChangeEntText(String ent, String text)
 {
 	return lmc1_ChangeTextByName(ToWStr(ent), ToWStr(text));
+}
+
+int JCZ2Laser::laser_SaveToFile(String ent)
+{
+	return lmc1_SaveEntLibToFile(ToWStr(ent));
+}
+
+//bind some param for use
+int JCZ2Laser::SetHatchBindParam(String ent, bool bEnableHatch, double dHatchLineDist, int nPenNo)
+{
+	return lmc1_SetHatchEntParam2(
+		ToWStr(ent), //填充对象名称
+		true, //使能轮廓本身
+		1, //填充参数序号值为1,2,3
+		bEnableHatch, //使能填充
+		false, //轮廓优先标刻
+		nPenNo, //填充参数笔号
+		0, //填充类型 0单向 1双向 2回形 3弓形 4弓形不反向
+		true, //是否全部对象作为整体一起计算
+		false,//绕边一次
+		true, //自动平均分布线
+		0, //填充线角度 
+		dHatchLineDist, //填充线间距
+		0, //填充线边距 
+		0, //填充线起始偏移距离
+		0, //填充线结束偏移距离
+		0, //直线缩进
+		0.5, //环间距
+		0, //环数
+		false, //环形反转
+		false, //是否自动旋转角度
+		10, //自动旋转角度
+		false, // 交叉填充
+		1); //数目
 }
